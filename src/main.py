@@ -23,7 +23,8 @@ def train(model, loader):
     earlyStopping = 8  # Stop training after this number of epochs without improvement
     batchNum = 0
 
-    totalEpoch = len(loader.trainSamples)//loader.numTrainSamplesPerEpoch
+    #totalEpoch = len(loader.trainSamples)//loader.numTrainSamplesPerEpoch
+    totalEpoch = 20
 
     while True:
         epoch += 1
@@ -95,7 +96,7 @@ def validate(model, loader):
             numWordOK += 1 if batch.gtTexts[i] == recognized[i] else 0
             numWordTotal += 1
             dist = editdistance.eval(recognized[i], batch.gtTexts[i])
-
+            print(dist)
             currCER = dist/max(len(recognized[i]), len(batch.gtTexts[i]))
             totalCER.append(currCER)
 
@@ -111,8 +112,8 @@ def validate(model, loader):
     charErrorRate = sum(totalCER)/len(totalCER)
     addressAccuracy = numWordOK / numWordTotal
     wordErrorRate = sum(totalWER)/len(totalWER)
-    print('Character error rate: %f%%. Address accuracy: %f%%. Word error rate: %f%%' %
-          (charErrorRate*100.0, addressAccuracy*100.0, *100.0))
+    print(charErrorRate,addressAccuracy,wordErrorRate)
+    print('Character error rate: %f%%. Address accuracy: %f%%. Word error rate: %f%%' %(charErrorRate*100.0, addressAccuracy*100.0, *100.0))
     return charErrorRate, addressAccuracy, wordErrorRate
 
 
