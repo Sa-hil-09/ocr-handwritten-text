@@ -227,12 +227,12 @@ class Model:
         # Go over all texts
         for (batchElement, texts) in enumerate(texts):
             # Convert to string of label (i.e. class-ids)
-            print(texts)
+            #print(texts)
             labelStr = []
             for c in texts:
-                print(c, '|', end='')
+                #print(c, '|', end='')
                 labelStr.append(self.charList.index(c))
-            print(' ')
+            #print(' ')
             # labelStr = [self.charList.index(c) for c in texts]
             # Sparse tensor must have size of max. label-string
             if len(labelStr) > shape[1]:
@@ -241,7 +241,7 @@ class Model:
             for (i, label) in enumerate(labelStr):
                 indices.append([batchElement, i])
                 values.append(label)
-
+        #print("to spare : ", shape)#[50,71]
         return (indices, values, shape)
 
     def decoderOutputToText(self, ctcOutput):
@@ -274,6 +274,7 @@ class Model:
         spare = self.toSpare(batch.gtTexts)
         rate = 0.01 if self.batchesTrained < 10 else (
             0.001 if self.batchesTrained < 2750 else 0.0001)
+        #print(self.merge, self.optimizer, self.loss, batch.imgs,spare,Model.maxTextLen,Model.batchSize,rate)       
         (loss_summary, _, lossVal) = self.sess.run([self.merge, self.optimizer, self.loss], {
             self.inputImgs: batch.imgs, self.gtTexts: spare, self.seqLen: [Model.maxTextLen] * Model.batchSize, self.learningRate: rate})
         # Tensorboard: Add loss_summary to writer

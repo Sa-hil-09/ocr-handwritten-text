@@ -1,0 +1,4 @@
+data/lines/
+src/logs/
+src/__pycache__/
+data/lines.tgz

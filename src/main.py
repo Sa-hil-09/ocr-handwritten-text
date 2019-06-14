@@ -96,7 +96,6 @@ def validate(model, loader):
             numWordOK += 1 if batch.gtTexts[i] == recognized[i] else 0
             numWordTotal += 1
             dist = editdistance.eval(recognized[i], batch.gtTexts[i])
-            print(dist)
             currCER = dist/max(len(recognized[i]), len(batch.gtTexts[i]))
             totalCER.append(currCER)
 
@@ -112,8 +111,8 @@ def validate(model, loader):
     charErrorRate = sum(totalCER)/len(totalCER)
     addressAccuracy = numWordOK / numWordTotal
     wordErrorRate = sum(totalWER)/len(totalWER)
-    print(charErrorRate,addressAccuracy,wordErrorRate)
-    print('Character error rate: %f%%. Address accuracy: %f%%. Word error rate: %f%%' %(charErrorRate*100.0, addressAccuracy*100.0, *100.0))
+    print('Character error rate: %f%%. Address accuracy: %f%%. Word error rate: %f%%' %
+          (charErrorRate*100.0, addressAccuracy*100.0, wordErrorRate*100.0))
     return charErrorRate, addressAccuracy, wordErrorRate
 
 
@@ -148,7 +147,7 @@ def main():
         # Load training data, create TF model
         loader = DataLoader(FilePaths.fnTrain, Model.batchSize,
                             Model.imgSize, Model.maxTextLen)
-
+        #print(decoderType,loader.charList) #0, upper,lower alpha,numbrs,punctuatns(?,.)
         # Execute training or validation
         if args.train:
             model = Model(loader.charList, decoderType)

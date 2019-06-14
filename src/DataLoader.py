@@ -72,6 +72,7 @@ class DataLoader:
               len(self.validationSamples), "images.")
 
         # Number of randomly chosen samples per epoch for training
+        #self.numTrainSamplesPerEpoch = 60
         self.numTrainSamplesPerEpoch = 5500
 
         # Start with train set
